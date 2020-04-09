@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-deployment
+  namespace: webserver
+  labels:
+    app: app-angular
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-angular
+  template:
+    metadata:
+      labels:
+        app: app-angular
+    spec:
+      containers:
+      - name: angular
+        image: santig1015/app-angular:qa
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-angular-service
+  namespace: webserver
+spec:
+  selector:
+    app: app-angular
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  
